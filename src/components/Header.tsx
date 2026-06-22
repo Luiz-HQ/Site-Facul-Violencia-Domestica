@@ -1,7 +1,6 @@
 "use client";
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
-import Link from "next/link";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -10,51 +9,92 @@ export default function Header() {
     setIsMenuOpen(!isMenuOpen);
   };
 
+  const handleLinkClick = () => {
+    setIsMenuOpen(false);
+  };
+
+  const handleSectionClick = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    sectionId: string,
+  ) => {
+    e.preventDefault();
+
+    handleLinkClick();
+
+    if (sectionId === "") {
+      window.history.pushState(null, "", "#");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      return;
+    }
+
+    const element = document.getElementById(sectionId);
+
+    if (element) {
+      window.history.pushState(null, "", `#${sectionId}`);
+
+      setTimeout(() => {
+        element.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 100);
+    }
+  };
+
   return (
     <header className="sticky top-0 z-50 bg-white border-b border-border shadow-sm">
       <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-        {/* Logo */}
-        <Link href="/" className="flex items-center gap-2 ">
+        <a
+          href="#"
+          onClick={(e) => {
+            e.preventDefault();
+            handleLinkClick();
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          }}
+          className="flex items-center gap-2 cursor-pointer"
+        >
           <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
             <span className="text-white font-bold text-lg">VD</span>
           </div>
           <span className="hidden md:inline font-bold text-primary text-lg">
             Violência Doméstica
           </span>
-        </Link>
+        </a>
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center gap-8">
-          <Link
-            href="/"
-            className="text-foreground hover:text-primary transition-colors"
+          <a
+            href="#"
+            onClick={(e) => handleSectionClick(e, "")}
+            className="text-foreground hover:text-primary transition-colors cursor-pointer"
           >
-            Início
-          </Link>
-          <Link
+            Inicio
+          </a>
+          <a
             href="#sobre"
-            className="text-foreground hover:text-primary transition-colors"
+            onClick={(e) => handleSectionClick(e, "sobre")}
+            className="text-foreground hover:text-primary transition-colors cursor-pointer"
           >
             Sobre
-          </Link>
-          <Link
+          </a>
+          <a
             href="#tipos"
-            className="text-foreground hover:text-primary transition-colors"
+            onClick={(e) => handleSectionClick(e, "tipos")}
+            className="text-foreground hover:text-primary transition-colors cursor-pointer"
           >
             Tipos de Violência
-          </Link>
-          <Link
+          </a>
+          <a
             href="#recursos"
-            className="text-foreground hover:text-primary transition-colors"
+            onClick={(e) => handleSectionClick(e, "recursos")}
+            className="text-foreground hover:text-primary transition-colors cursor-pointer"
           >
             Recursos
-          </Link>
-          <Link
+          </a>
+          <a
             href="#contato"
-            className="text-foreground hover:text-primary transition-colors"
+            onClick={(e) => handleSectionClick(e, "contato")}
+            className="text-foreground hover:text-primary transition-colors cursor-pointer"
           >
             Contato
-          </Link>
+          </a>
         </nav>
 
         {/* CTA Button */}
@@ -79,39 +119,45 @@ export default function Header() {
       {isMenuOpen && (
         <nav className="md:hidden border-t border-border bg-white">
           <div className="container mx-auto px-4 py-4 flex flex-col gap-4">
-            <Link
-              href="/"
-              className="text-foreground hover:text-primary transition-colors py-2"
+            <a
+              href="#"
+              onClick={(e) => handleSectionClick(e, "")}
+              className="text-foreground hover:text-primary transition-colors cursor-pointer"
             >
-              Início
-            </Link>
-            <Link
+              Inicio
+            </a>
+            <a
               href="#sobre"
-              className="text-foreground hover:text-primary transition-colors py-2"
+              onClick={(e) => handleSectionClick(e, "sobre")}
+              className="text-foreground hover:text-primary transition-colors py-2 cursor-pointer"
             >
               Sobre
-            </Link>
-            <Link
+            </a>
+            <a
               href="#tipos"
-              className="text-foreground hover:text-primary transition-colors py-2"
+              onClick={(e) => handleSectionClick(e, "tipos")}
+              className="text-foreground hover:text-primary transition-colors py-2 cursor-pointer"
             >
               Tipos de Violência
-            </Link>
-            <Link
+            </a>
+            <a
               href="#recursos"
-              className="text-foreground hover:text-primary transition-colors py-2"
+              onClick={(e) => handleSectionClick(e, "recursos")}
+              className="text-foreground hover:text-primary transition-colors py-2 cursor-pointer"
             >
               Recursos
-            </Link>
-            <Link
+            </a>
+            <a
               href="#contato"
-              className="text-foreground hover:text-primary transition-colors py-2"
+              onClick={(e) => handleSectionClick(e, "contato")}
+              className="text-foreground hover:text-primary transition-colors py-2 cursor-pointer"
             >
               Contato
-            </Link>
+            </a>
             <a
               href="tel:180"
               className="bg-accent text-accent-foreground px-6 py-2 rounded-lg font-semibold hover:opacity-90 transition-opacity text-center"
+              onClick={handleLinkClick}
             >
               Denúncia: 180
             </a>

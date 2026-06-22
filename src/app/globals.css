@@ -172,3 +172,9 @@ body {
 html {
   scroll-behavior: smooth;
 }
+
+@media (max-width: 768px) {
+  [id] {
+    scroll-margin-top: 30px;
+  }
+}
